@@ -54,3 +54,13 @@ describe('delete a book', {:type => :feature}) do
     expect(page).not_to(have_content('Jane Eyre'))
   end
 end
+
+describe('patron cannot delete book', {:type => :feature}) do
+  it('will not allow a patron to delete a book') do
+    create_test_book().save()
+    visit('/')
+    click_link('Browse All Books')
+    expect(page).to(have_content('Jane Eyre'))
+    expect(page).not_to(have_content('Remove Book from Database'))
+    end
+end
