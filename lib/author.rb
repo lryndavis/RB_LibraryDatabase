@@ -33,6 +33,16 @@ class Author
     objects
   end
 
+  def update(attributes)
+    @id = self.id()
+
+    attributes.each() do |attribute|
+      column = attribute[0].to_s()
+      new_value = attribute[1]
+      DB.exec("UPDATE authors SET #{column} = '#{new_value}' WHERE id = #{@id};")
+    end
+  end
+
   def ==(another_author)
     self.id() == another_author.id()
   end

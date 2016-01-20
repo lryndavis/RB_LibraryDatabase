@@ -50,4 +50,17 @@ describe(Author) do
       expect(Author.find('last_name', charlotte_bronte.last_name)).to(eq([charlotte_bronte]))
     end
   end
+
+  describe('#update') do
+    it('updates a specified attribute of the object') do
+      test_author = create_test_author()
+      test_author.save()
+      test_author.update({
+        :last_name => 'Brontesaurus'
+        })
+      updated_author = Author.find('id', test_author.id()).first()
+      expect(updated_author.last_name()).to(eq('Brontesaurus'))
+      expect(updated_author.first_name()).to(eq('Charlotte'))
+    end
+  end
 end
