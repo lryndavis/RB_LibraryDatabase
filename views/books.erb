@@ -9,6 +9,9 @@
           <form class="form-group" action="/books/<%= book.id() %>" method="post">
             <button class="btn btn-default" type="submit" name="_method" value="delete">Remove Book from Database</button>
           </form>
+          <a href="/books/<%= book.id() %>/update">
+            <button class="btn btn-default">Update Book Information</button>
+          </a>
         <% end %>
       </li>
       <% end %>

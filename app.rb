@@ -59,12 +59,32 @@ get('/books/:id') do
   erb(:book)
 end
 
+patch('/books/:id') do
+  id = params[:id]
+  book = Book.find('id', id).first()
+  title = params[:title]
+  unless title.nil?
+    book.update({
+      :title => title
+      })
+  end
+  @book = Book.find('id', id).first()
+  erb(:book)
+end
+
 delete('/books/:id') do
   id = params[:id]
   book = Book.find('id', id).first()
   book.delete()
   message = 'A book has been deleted.'
   redirect("/books?message=#{message}")
+end
+
+get('/books/:id/update') do
+  id = params[:id]
+  @book = Book.find('id', id).first()
+  @authors = Author.sort_by('last_name', 'ASC')
+  erb(:update_book_form)
 end
 
 get('/search') do

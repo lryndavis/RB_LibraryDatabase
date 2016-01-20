@@ -61,3 +61,16 @@ describe('delete a book', {:type => :feature}) do
     expect(page).not_to(have_content('Remove Book from Database'))
   end
 end
+
+describe('edit a book', {:type => :feature}) do
+  it('allows a librarian to edit a book title') do
+    create_test_book().save()
+    visit('/')
+    click_link('Librarian Portal')
+    click_link('Manage Books')
+    click_link('Update Book Information')
+    fill_in('title', :with => 'Jayne Eyre')
+    click_button('Update Book Information')
+    expect(page).to(have_content('Jayne Eyre'))
+  end
+end
