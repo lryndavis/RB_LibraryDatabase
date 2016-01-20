@@ -40,3 +40,17 @@ def create_second_book
     :id => nil,
     :title => 'Phantoms'})
 end
+
+def create_test_patron
+  Patron.new({
+    :id => nil,
+    :first_name => 'Madeleine',
+    :last_name => 'Albright'})
+end
+
+def create_second_patron
+  Patron.new({
+    :id => nil,
+    :first_name => 'Ruth',
+    :last_name => 'Bader Ginsberg'})
+end
