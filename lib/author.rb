@@ -41,4 +41,13 @@ class Author
     results = DB.exec("SELECT * FROM authors ORDER BY #{column} #{direction};")
     Author.map_results_to_objects(results)
   end
+
+  def self.find(column, identifier)
+    if identifier.is_a?(String)
+      results = DB.exec("SELECT * FROM authors WHERE #{column} = '#{identifier}';")
+    else
+      results = DB.exec("SELECT * FROM authors WHERE #{column} = #{identifier};")
+    end
+    Author.map_results_to_objects(results)
+  end
 end

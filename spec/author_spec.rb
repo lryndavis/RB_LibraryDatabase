@@ -39,4 +39,15 @@ describe(Author) do
         .to(eq([charlotte_bronte, dean_koontz]))
     end
   end
+
+  describe('.find') do
+    it('finds authors by the specified criteria') do
+      charlotte_bronte = create_test_author()
+      charlotte_bronte.save()
+      dean_koontz = create_second_author()
+      dean_koontz.save()
+      expect(Author.find('id', charlotte_bronte.id)).to(eq([charlotte_bronte]))
+      expect(Author.find('last_name', charlotte_bronte.last_name)).to(eq([charlotte_bronte]))
+    end
+  end
 end
