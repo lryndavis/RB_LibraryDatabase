@@ -16,6 +16,13 @@ get('/portal') do
   erb(:portal)
 end
 
+get('/books') do
+  @user = params[:user]
+  @results = Book.all()
+  @message = params[:message]
+  erb(:books)
+end
+
 post('/books') do
   if params[:author] == "new"
     first_name = params[:first_name]
@@ -46,9 +53,23 @@ get('/books/new') do
   erb(:book_form)
 end
 
+get('/books/:id') do
+  id = params[:id]
+  @book = Book.find('id', id).first()
+  erb(:book)
+end
+
+delete('/books/:id') do
+  id = params[:id]
+  book = Book.find('id', id).first()
+  book.delete()
+  message = 'A book has been deleted.'
+  redirect("/books?message=#{message}")
+end
+
 get('/search') do
   search_type = params[:search_type]
   search_criteria = params[:search_criteria]
   @results = Book.find("#{search_type}", "#{search_criteria}")
-  erb(:search_results)
+  erb(:books)
 end

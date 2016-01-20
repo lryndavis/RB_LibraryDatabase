@@ -42,3 +42,15 @@ describe('search for a book', {:type => :feature}) do
     expect(page).to(have_content('Jane Eyre'))
   end
 end
+
+describe('delete a book', {:type => :feature}) do
+  it('allows a librarian to delete a book') do
+    create_test_book().save()
+    visit('/')
+    click_link('Librarian Portal')
+    click_link('Manage Books')
+    click_button('Remove Book from Database')
+    expect(page).to(have_content('A book has been deleted.'))
+    expect(page).not_to(have_content('Jane Eyre'))
+  end
+end
