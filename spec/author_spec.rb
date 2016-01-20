@@ -63,4 +63,15 @@ describe(Author) do
       expect(updated_author.first_name()).to(eq('Charlotte'))
     end
   end
+
+  describe('#delete') do
+    it('lets you delete an author from the database') do
+      test_author = create_test_author()
+      test_author.save()
+      second_author = create_second_author()
+      second_author.save()
+      test_author.delete()
+      expect(Author.all()).to(eq([second_author]))
+    end
+  end
 end
