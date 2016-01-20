@@ -28,3 +28,15 @@ def create_second_author
     :first_name => 'Dean',
     :last_name => 'Koontz'})
 end
+
+def create_test_book
+  Book.new({
+    :id => nil,
+    :title => 'Jane Eyre'})
+end
+
+def create_second_book
+  Book.new({
+    :id => nil,
+    :title => 'Phantoms'})
+end
