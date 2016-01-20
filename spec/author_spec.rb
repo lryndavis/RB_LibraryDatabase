@@ -24,4 +24,19 @@ describe(Author) do
       expect(Author.all()).to(eq([test_author]))
     end
   end
+
+  describe('.sort_by') do
+    it('sorts authors by the specified column in the specified direction') do
+      charlotte_bronte = create_test_author()
+      charlotte_bronte.save()
+      dean_koontz = create_second_author()
+      dean_koontz.save()
+      expect(Author.sort_by('last_name', 'ASC'))
+        .to(eq([charlotte_bronte, dean_koontz]))
+      expect(Author.sort_by('last_name', 'DESC'))
+        .to(eq([dean_koontz, charlotte_bronte]))
+      expect(Author.sort_by('first_name', 'ASC'))
+        .to(eq([charlotte_bronte, dean_koontz]))
+    end
+  end
 end

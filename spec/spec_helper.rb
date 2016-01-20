@@ -21,3 +21,10 @@ def create_test_author
     :first_name => 'Charlotte',
     :last_name => 'Bronte'})
 end
+
+def create_second_author
+  Author.new({
+    :id => nil,
+    :first_name => 'Dean',
+    :last_name => 'Koontz'})
+end

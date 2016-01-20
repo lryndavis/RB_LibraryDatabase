@@ -34,6 +34,11 @@ class Author
   end
 
   def ==(another_author)
-    self.id() == another_author.id() 
+    self.id() == another_author.id()
+  end
+
+  def self.sort_by(column, direction)
+    results = DB.exec("SELECT * FROM authors ORDER BY #{column} #{direction};")
+    Author.map_results_to_objects(results)
   end
 end
