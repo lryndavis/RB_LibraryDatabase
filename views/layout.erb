@@ -5,13 +5,44 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 </head>
 <body>
+  <nav class="navbar navbar-default">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> Liberry Patch</a>
+      </div>
+
+      <form class="navbar-form navbar-right" role="search" action="/search">
+        <label for="search_type">Search for a book: </label>
+        <select class="form-control" name="search_type">
+          <option value="title">Title</option>
+        </select>
+        <div class="input-group">
+          <input type="text" name="search_criteria"  class="form-control" placeholder="Search">
+          <div class="input-group-btn">
+            <button type="submit" class="btn btn-default">Search</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </nav>
+
   <div class="container">
     <%= yield %>
   </div>
-  <footer>
-    <p>
-      <a href="/portal">Librarian Portal</a>
-    </p>
+
+  <footer class="navbar navbar-default navbar-fixed-bottom">
+    <div class="container">
+      <ul class="nav navbar-nav">
+        <li><a class="navbar-link" href="/portal">Librarian Portal</a></li>
+      </ul>
+    </div>
   </footer>
+
+  <!-- jQuery via Google + local fallback, see h5bp.com -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/jquery-1.7.1.min.js"><\/script>')</script>
+
+<!-- Bootstrap jQuery Plugins, compiled and minified -->
+<script src="js/bootstrap.min.js"></script>
 </body>
 </html>
