@@ -93,3 +93,21 @@ get('/search') do
   @results = Book.find("#{search_type}", "#{search_criteria}")
   erb(:books)
 end
+
+post('/patrons') do
+  first_name = params[:first_name]
+  last_name = params[:last_name]
+
+  Patron.new({
+    :id => nil,
+    :first_name => first_name,
+    :last_name => last_name
+  }).save()
+
+  @results = Patron.sort_by('last_name', 'ASC')
+  erb(:patrons)
+end
+
+get('/patrons/new') do
+  erb(:patron_form)
+end

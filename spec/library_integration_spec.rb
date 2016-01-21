@@ -74,3 +74,15 @@ describe('edit a book', {:type => :feature}) do
     expect(page).to(have_content('Jayne Eyre'))
   end
 end
+
+describe('adding a patron', {:type => :feature}) do
+  it('allows a librarian to add a new patron to the database') do
+    visit('/')
+    click_link('Librarian Portal')
+    click_link('Add a Patron')
+    fill_in('first_name', :with => 'Madeleine')
+    fill_in('last_name', :with => 'Albright')
+    click_button('Add')
+    expect(page).to(have_content('Albright, Madeleine'))
+  end
+end
