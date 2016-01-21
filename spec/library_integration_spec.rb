@@ -86,3 +86,15 @@ describe('adding a patron', {:type => :feature}) do
     expect(page).to(have_content('Albright, Madeleine'))
   end
 end
+
+describe('delete a patron', {:type => :feature}) do
+  it('allows a librarian to delete a patron') do
+    create_test_patron().save()
+    visit('/')
+    click_link('Librarian Portal')
+    click_link('Manage Patrons')
+    click_button('Remove Patron from Database')
+    expect(page).to(have_content('A patron has been deleted.'))
+    expect(page).not_to(have_content('Albright, Madeleine'))
+  end
+end

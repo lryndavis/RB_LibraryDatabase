@@ -18,7 +18,7 @@ end
 
 get('/books') do
   @user = params[:user]
-  @results = Book.all()
+  @results = Book.sort_by('title', 'ASC')
   @message = params[:message]
   erb(:books)
 end
@@ -94,6 +94,13 @@ get('/search') do
   erb(:books)
 end
 
+get('/patrons') do
+  @user = params[:user]
+  @message = params[:message]
+  @results = Patron.sort_by('last_name', 'ASC')
+  erb(:patrons)
+end
+
 post('/patrons') do
   first_name = params[:first_name]
   last_name = params[:last_name]
@@ -111,3 +118,18 @@ end
 get('/patrons/new') do
   erb(:patron_form)
 end
+
+delete('/patrons/:id') do
+  id = params[:id]
+  patron = Patron.find('id', id).first()
+  patron.delete()
+  message = 'A patron has been deleted.'
+  redirect("/patrons?message=#{message}")
+end
+
+# get('/books/:id/update') do
+#   id = params[:id]
+#   @book = Book.find('id', id).first()
+#   @authors = Author.sort_by('last_name', 'ASC')
+#   erb(:update_book_form)
+# end
