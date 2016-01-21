@@ -1,5 +1,7 @@
 <h1>Success!</h1>
 
-<h5><%= @author.last_name() %>, <%= @author.first_name() %></h5>
+<% @authors.each() do |author| %>
+  <h5><%= author.last_name() %>, <%= author.first_name() %></h5>
+<% end %>
 
 <h5><%= @book.title() %></h5>

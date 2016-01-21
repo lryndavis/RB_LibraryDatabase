@@ -6,29 +6,44 @@ Capybara.app = Sinatra::Application
 set(:show_exceptions, false)
 
 describe('adding an author', {:type => :feature}) do
-  it('allows a librarian to add a new author to the database') do
+  it('allows a librarian to add a new book and author to the database') do
     visit('/')
     click_link('Librarian Portal')
     click_link('Add a Book')
-    select('New Author')
     fill_in('first_name', :with => 'Charlotte')
     fill_in('last_name', :with => 'Bronte')
     fill_in('title', :with => 'Jane Eyre')
     click_button('Add')
+    expect(page).to(have_content('Bronte, Charlotte'))
+    visit('/books')
     expect(page).to(have_content('Bronte, Charlotte'))
   end
 end
 
 describe('adding a book', {:type => :feature}) do
   it('allows a librarian to add a book to an existing author') do
-    create_test_author().save()
+    first_author = create_test_author()
+    first_author.save()
     visit('/')
     click_link('Librarian Portal')
     click_link('Add a Book')
-    select('Bronte, Charlotte')
+    check('Bronte, Charlotte')
     fill_in('title', :with => 'Jane Eyre')
     click_button('Add')
     expect(page).to(have_content('Jane Eyre'))
+  end
+
+  it('allows a librarian to add multiple existing authors to a book') do
+    second_author = create_second_author()
+    second_author.save()
+    create_test_author().save()
+    visit('/books/new')
+    check('Bronte, Charlotte')
+    check('Koontz, Dean')
+    fill_in('title', :with => 'Jane Eyre')
+    click_button('Add')
+    expect(page).to(have_content('Bronte, Charlotte'))
+    expect(page).to(have_content('Koontz, Dean'))
   end
 end
 

@@ -42,7 +42,7 @@ class Book
   def add_authors(attributes)
     attributes.fetch(:author_ids, []).each() do |author_id|
       DB.exec("INSERT INTO authorships (author_id, book_id) \
-        VALUES (#{author_id}, #{self.id()});")
+        VALUES (#{author_id.to_i()}, #{self.id()});")
     end
   end
 

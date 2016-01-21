@@ -2,4 +2,6 @@
   <h1><%= book.title() %></h1>
 </a>
 
-<h5>Author info will appear here</h5>
+<% book.authors.each() do |author| %>
+  <h5><%= author.last_name() %>, <%= author.first_name() %></h5>
+<% end %>

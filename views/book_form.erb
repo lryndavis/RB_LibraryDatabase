@@ -1,18 +1,22 @@
 <form class="form-horizontal" action="/books" method="post">
   <div class="form-group">
     <label for="author" class="col-sm-2 control-label">Author</label>
-    <div class="col-sm-3">
-      <select class="form-control" name="author">
-        <option value="new">New Author</option>
-        <% @authors.each() do |author| %>
-          <option value="<%= author.id() %>"> <%= author.last_name() %>, <%= author.first_name() %> </option>
-        <% end %>
-      </select>
+    <div class="col-sm-2">
+      <% @authors.each() do |author| %>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" name="author_ids[]" value="<%= author.id() %>"><%= author.last_name() %>, <%= author.first_name() %>
+          </label>
+        </div>
+      <% end %>
+    </div>
+    <div class="col-sm-2">
+      <label class="control-label" for="first_name">Add New Author</label>
     </div>
     <div class="col-sm-3">
       <input type="text" class="form-control" name="first_name" placeholder="First Name">
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-3">
       <input type="text" class="form-control" name="last_name" placeholder="Last Name">
     </div>
   </div>

@@ -24,18 +24,22 @@ get('/books') do
 end
 
 post('/books') do
-  if params[:author] == "new"
+  if params[:author_ids].nil?
+    author_ids = []
+  else
+    author_ids = params[:author_ids]
+  end
+
+  if params[:last_name].length() > 0
     first_name = params[:first_name]
     last_name = params[:last_name]
-    @author = Author.new({
+    author = Author.new({
       :id => nil,
       :first_name => first_name,
       :last_name => last_name
     })
-    @author.save()
-  else
-    author_id = params[:author]
-    @author = Author.find('id', author_id).first()
+    author.save()
+    author_ids << author.id()
   end
 
   title = params[:title]
@@ -45,6 +49,8 @@ post('/books') do
     })
   @book.save()
 
+  @book.add_authors({:author_ids => author_ids})
+  @authors = @book.authors()
   erb(:success_temp)
 end
 
@@ -145,7 +151,7 @@ patch('/patrons/:id') do
       })
   end
 
-  unless last_name = ""
+  unless last_name == ""
     patron.update({
       :last_name => last_name
       })
@@ -187,7 +193,7 @@ patch('/authors/:id') do
       })
   end
 
-  unless last_name = ""
+  unless last_name == ""
     author.update({
       :last_name => last_name
       })
