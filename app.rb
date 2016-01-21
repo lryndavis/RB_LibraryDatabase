@@ -138,7 +138,7 @@ patch('/patrons/:id') do
   patron = Patron.find('id', id).first()
   first_name = params[:first_name]
   last_name = params[:last_name]
-  
+
   unless first_name == ""
     patron.update({
       :first_name => first_name
@@ -152,4 +152,46 @@ patch('/patrons/:id') do
   end
   @patron = Patron.find('id', id).first()
   erb(:patron)
+end
+
+get('/authors') do
+  @user = params[:user]
+  @message = params[:message]
+  @results = Author.sort_by('last_name', 'ASC')
+  erb(:authors)
+end
+
+delete('/authors/:id') do
+  id = params[:id]
+  author = Author.find('id', id).first()
+  author.delete()
+  message = 'An author has been deleted.'
+  redirect("/authors?message=#{message}")
+end
+
+get('/authors/:id/update') do
+  id = params[:id]
+  @author = Author.find('id', id).first()
+  erb(:update_author_form)
+end
+
+patch('/authors/:id') do
+  id = params[:id]
+  author = Author.find('id', id).first()
+  first_name = params[:first_name]
+  last_name = params[:last_name]
+
+  unless first_name == ""
+    author.update({
+      :first_name => first_name
+      })
+  end
+
+  unless last_name = ""
+    author.update({
+      :last_name => last_name
+      })
+  end
+  @author = Author.find('id', id).first()
+  erb(:author)
 end

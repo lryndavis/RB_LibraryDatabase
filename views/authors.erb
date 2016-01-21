@@ -1,0 +1,24 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+    <ul class="list-group">
+      <% @results.each() do |author| %>
+      <li class="list-group-item">
+        <%= erb(:author_listing, :layout => false, :locals => {:author => author}) %>
+
+        <% if @user == "librarian" %>
+          <form class="form-group" action="/authors/<%= author.id() %>" method="post">
+            <button class="btn btn-default" type="submit" name="_method" value="delete">Remove Author from Database</button>
+          </form>
+          <a href="/authors/<%= author.id() %>/update">
+            <button class="btn btn-default">Update Author Information</button>
+          </a>
+        <% end %>
+      </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <% unless @message.nil? %>
+    <div class="panel-footer"><%= @message %></div>
+  <% end %>
+</div>

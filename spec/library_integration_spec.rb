@@ -100,7 +100,7 @@ describe('delete a patron', {:type => :feature}) do
 end
 
 describe('edit a patron', {:type => :feature}) do
-  it('allows a librarian to edit a patron title') do
+  it('allows a librarian to edit patron information') do
     create_test_patron().save()
     visit('/')
     click_link('Librarian Portal')
@@ -109,5 +109,30 @@ describe('edit a patron', {:type => :feature}) do
     fill_in('first_name', :with => 'Jayne')
     click_button('Update Patron Information')
     expect(page).to(have_content('Albright, Jayne'))
+  end
+end
+
+describe('delete an author', {:type => :feature}) do
+  it('allows a librarian to delete an author') do
+    create_test_author().save()
+    visit('/')
+    click_link('Librarian Portal')
+    click_link('Manage Authors')
+    click_button('Remove Author from Database')
+    expect(page).to(have_content('An author has been deleted.'))
+    expect(page).not_to(have_content('Bronte, Charlotte'))
+  end
+end
+
+describe('edit an author', {:type => :feature}) do
+  it('allows a librarian to edit author information') do
+    create_test_author().save()
+    visit('/')
+    click_link('Librarian Portal')
+    click_link('Manage Authors')
+    click_link('Update Author Information')
+    fill_in('first_name', :with => 'Jayne')
+    click_button('Update Author Information')
+    expect(page).to(have_content('Bronte, Jayne'))
   end
 end
