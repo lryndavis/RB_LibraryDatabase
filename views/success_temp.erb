@@ -1,7 +1,11 @@
 <h1>Success!</h1>
 
-<% @authors.each() do |author| %>
-  <h5><%= author.last_name() %>, <%= author.first_name() %></h5>
+<% unless @authors.nil? %>
+  <% @authors.each() do |author| %>
+    <h5><%= author.last_name() %>, <%= author.first_name() %></h5>
+  <% end %>
 <% end %>
 
-<h5><%= @book.title() %></h5>
+<% unless @book.nil? %>
+  <h5><%= @book.title() %></h5>
+<% end %>

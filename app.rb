@@ -30,9 +30,21 @@ post('/books') do
     author_ids = params[:author_ids]
   end
 
-  if params[:last_name].length() > 0
-    first_name = params[:first_name]
-    last_name = params[:last_name]
+  if params[:last_name1].length() > 0
+    first_name = params[:first_name1]
+    last_name = params[:last_name1]
+    author = Author.new({
+      :id => nil,
+      :first_name => first_name,
+      :last_name => last_name
+    })
+    author.save()
+    author_ids << author.id()
+  end
+
+  if params[:last_name2].length() > 0
+    first_name = params[:first_name2]
+    last_name = params[:last_name2]
     author = Author.new({
       :id => nil,
       :first_name => first_name,
@@ -43,14 +55,17 @@ post('/books') do
   end
 
   title = params[:title]
-  @book = Book.new({
-    :id => nil,
-    :title => title,
-    })
-  @book.save()
+  if title.length() > 0
+    @book = Book.new({
+      :id => nil,
+      :title => title,
+      })
+    @book.save()
 
-  @book.add_authors({:author_ids => author_ids})
-  @authors = @book.authors()
+    @book.add_authors({:author_ids => author_ids})
+    @authors = @book.authors()
+  end
+
   erb(:success_temp)
 end
 
