@@ -63,7 +63,7 @@ patch('/books/:id') do
   id = params[:id]
   book = Book.find('id', id).first()
   title = params[:title]
-  unless title.nil?
+  unless title == ""
     book.update({
       :title => title
       })
@@ -127,9 +127,29 @@ delete('/patrons/:id') do
   redirect("/patrons?message=#{message}")
 end
 
-# get('/books/:id/update') do
-#   id = params[:id]
-#   @book = Book.find('id', id).first()
-#   @authors = Author.sort_by('last_name', 'ASC')
-#   erb(:update_book_form)
-# end
+get('/patrons/:id/update') do
+  id = params[:id]
+  @patron = Patron.find('id', id).first()
+  erb(:update_patron_form)
+end
+
+patch('/patrons/:id') do
+  id = params[:id]
+  patron = Patron.find('id', id).first()
+  first_name = params[:first_name]
+  last_name = params[:last_name]
+  
+  unless first_name == ""
+    patron.update({
+      :first_name => first_name
+      })
+  end
+
+  unless last_name = ""
+    patron.update({
+      :last_name => last_name
+      })
+  end
+  @patron = Patron.find('id', id).first()
+  erb(:patron)
+end
