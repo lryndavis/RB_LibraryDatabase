@@ -70,4 +70,17 @@ describe(Book) do
       expect(Book.all()).to(eq([second_book]))
     end
   end
+
+  describe('#add_authors') do
+    it('lets you add an author to a book') do
+      test_book = create_test_book()
+      test_book.save()
+      first_author = create_test_author()
+      first_author.save()
+      second_author = create_second_author()
+      second_author.save()
+      test_book.add_authors({:author_ids => [first_author.id(), second_author.id()]})
+      expect(test_book.authors()).to(eq([first_author, second_author]))
+    end
+  end
 end

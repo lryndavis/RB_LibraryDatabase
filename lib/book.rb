@@ -39,6 +39,21 @@ class Book
     end
   end
 
+  def add_authors(attributes)
+    attributes.fetch(:author_ids, []).each() do |author_id|
+      DB.exec("INSERT INTO authorships (author_id, book_id) \
+        VALUES (#{author_id}, #{self.id()});")
+    end
+  end
+
+  def authors
+    results = DB.exec("SELECT authors.* FROM books
+      JOIN authorships ON (books.id = authorships.book_id)
+      JOIN authors ON (authorships.author_id = authors.id)
+      WHERE books.id = #{self.id()};")
+    Author.map_results_to_objects(results)
+  end
+
   def delete
     DB.exec("DELETE FROM books WHERE id = #{self.id()}")
   end

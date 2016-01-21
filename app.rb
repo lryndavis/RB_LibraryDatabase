@@ -6,7 +6,7 @@ require "./lib/patron"
 require "pg"
 require "pry"
 
-DB = PG.connect({:dbname => 'library'})
+DB = PG.connect({:dbname => 'library_test'})
 
 get('/') do
   erb(:index)

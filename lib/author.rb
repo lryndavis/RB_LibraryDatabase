@@ -42,6 +42,14 @@ class Author
     end
   end
 
+  def books
+    results = DB.exec("SELECT books.* FROM authors
+      JOIN authorships ON (authors.id = authorships.author_id)
+      JOIN books ON (authorships.book_id = books.id)
+      WHERE authors.id = #{self.id()};")
+    Book.map_results_to_objects(results)
+  end
+
   def delete
     DB.exec("DELETE FROM authors WHERE id = #{self.id()}")
   end
