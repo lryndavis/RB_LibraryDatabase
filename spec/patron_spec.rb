@@ -74,4 +74,17 @@ describe(Patron) do
       expect(Patron.all()).to(eq([second_patron]))
     end
   end
+
+  describe('#checkout_books') do
+    it('lets you add books to a patrons checkout list') do
+      test_patron = create_test_patron()
+      test_patron.save()
+      first_book = create_test_book()
+      first_book.save()
+      second_book = create_second_book()
+      second_book.save()
+      test_patron.checkout_books({:book_ids => [first_book.id(), second_book.id()]}, '2016-12-12')
+      expect(test_patron.book_history()).to(eq([first_book, second_book]))
+    end
+  end
 end

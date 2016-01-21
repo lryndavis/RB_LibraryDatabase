@@ -83,4 +83,27 @@ describe(Book) do
       expect(test_book.authors()).to(eq([first_author, second_author]))
     end
   end
+
+  describe('#checked_out?') do
+    it('reports whether the book is checked out') do
+      test_patron = create_test_patron()
+      test_patron.save()
+      test_book = create_test_book()
+      test_book.save()
+      test_patron.checkout_books({:book_ids => [test_book.id()]}, '2016-12-12')
+      expect(test_book.checked_out?()).to(eq(true))
+    end
+  end
+
+  describe('#checkin') do
+    it('lets a user check in a book') do
+      test_patron = create_test_patron()
+      test_patron.save()
+      test_book = create_test_book()
+      test_book.save()
+      test_patron.checkout_books({:book_ids => [test_book.id()]}, '2016-12-12')
+      test_book.checkin()
+      expect(test_book.checked_out?()).to(eq(false))
+    end
+  end
 end

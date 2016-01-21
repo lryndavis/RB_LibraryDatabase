@@ -54,8 +54,24 @@ class Book
     Author.map_results_to_objects(results)
   end
 
+  def checked_out?
+    results = DB.exec("SELECT checked_out FROM checkouts WHERE book_id = #{self.id()};")
+
+    results.each() do |result|
+      if result.fetch('checked_out') == 't'
+        return true
+      end
+    end
+
+    false
+  end
+
+  def checkin
+    DB.exec("UPDATE checkouts SET checked_out = 'f' WHERE book_id = #{self.id()};")
+  end
+
   def delete
-    DB.exec("DELETE FROM books WHERE id = #{self.id()}")
+    DB.exec("DELETE FROM books WHERE id = #{self.id()};")
   end
 
   def ==(another_book)

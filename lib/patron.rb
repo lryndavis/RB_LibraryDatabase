@@ -42,6 +42,21 @@ class Patron
     end
   end
 
+  def checkout_books(attributes, due_date)
+    attributes.fetch(:book_ids, []).each() do |book_id|
+      DB.exec("INSERT INTO checkouts (book_id, patron_id, due_date, checked_out) \
+        VALUES (#{book_id.to_i()}, #{self.id()}, '#{due_date}', 't');")
+    end
+  end
+
+  def book_history
+    results = DB.exec("SELECT books.* FROM patrons
+      JOIN checkouts ON (patrons.id = checkouts.patron_id)
+      JOIN books ON (checkouts.book_id = books.id)
+      WHERE patrons.id = #{self.id()};")
+    Book.map_results_to_objects(results)
+  end
+
   def delete
     DB.exec("DELETE FROM patrons WHERE id = #{self.id()}")
   end
