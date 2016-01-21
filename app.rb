@@ -110,8 +110,35 @@ end
 
 get('/search') do
   search_type = params[:search_type]
-  search_criteria = params[:search_criteria]
-  @results = Book.find("#{search_type}", "#{search_criteria}")
+  search_criterium = params[:search_criteria]
+
+  if search_type == "author"
+    search_criteria = search_criterium.split(" ")
+    authors = []
+    @results = []
+    search_criteria.each() do |criterium|
+      first_name_matches = Author.find("first_name", criterium)
+      last_name_matches = Author.find("last_name", criterium)
+
+      if first_name_matches != []
+        authors << first_name_matches
+      end
+
+      if last_name_matches != []
+        authors << last_name_matches
+      end
+    end
+
+    authors.flatten().each() do |author|
+      author.books.each() do |book|
+        unless @results.include?(book)
+          @results << book
+        end
+      end
+    end
+  else
+    @results = Book.find("#{search_type}", "#{search_criterium}")
+  end
   erb(:books)
 end
 

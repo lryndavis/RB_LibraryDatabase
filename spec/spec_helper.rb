@@ -29,6 +29,13 @@ def create_second_author
     :last_name => 'Koontz'})
 end
 
+def create_similarly_named_author
+  Author.new({
+    :id => nil,
+    :first_name => 'Emily',
+    :last_name => 'Bronte'})
+end
+
 def create_test_book
   Book.new({
     :id => nil,

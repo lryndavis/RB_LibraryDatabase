@@ -48,13 +48,43 @@ describe('adding a book', {:type => :feature}) do
 end
 
 describe('search for a book', {:type => :feature}) do
+  before :each do
+    test_author = create_test_author()
+    test_author.save()
+    test_book = create_test_book()
+    test_book.save()
+    test_book.add_authors({:author_ids => [test_author.id()]})
+    similar_author = create_similarly_named_author()
+    similar_author.save()
+    similar_author_book = create_second_book()
+    similar_author_book.save()
+    similar_author_book.add_authors({:author_ids => [similar_author.id()]})
+  end
+
   it('allows a user to search for a book by title') do
-    create_test_book().save()
     visit('/')
     select('Title')
     fill_in('search_criteria', :with => 'Jane Eyre')
     click_button('Search')
     expect(page).to(have_content('Jane Eyre'))
+  end
+
+  # it('returns books by one author but not by a similarly named author') do
+  #   visit('/')
+  #   select('Author')
+  #   fill_in('search_criteria', :with => 'Charlotte Bronte')
+  #   click_button('Search')
+  #   expect(page).to(have_content('Jane Eyre'))
+  #   expect(page).not_to(have_content('Emily'))
+  # end
+
+  it('returns books by similarly named authors based on a common characteristic') do
+    visit('/')
+    select('Author')
+    fill_in('search_criteria', :with => 'Bronte')
+    click_button('Search')
+    expect(page).to(have_content('Jane Eyre'))
+    expect(page).to(have_content('Emily'))
   end
 end
 
