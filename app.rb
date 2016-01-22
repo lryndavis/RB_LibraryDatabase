@@ -258,3 +258,10 @@ post('/checkouts') do
   @book_history = @patron.book_history()
   erb(:checkouts)
 end
+
+get('/checkouts') do
+  patron_id = params[:patron_id]
+  @patron = Patron.find('id', patron_id).first()
+  @book_history = @patron.book_history()
+  erb(:checkouts)
+end

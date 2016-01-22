@@ -197,3 +197,18 @@ describe('check out a book', {:type => :feature}) do
     expect(test_book.checked_out?()).to(eq(true))
   end
 end
+
+describe('view history', {:type => :feature}) do
+  it('allows a patron to view their checkout history') do
+    test_patron = create_test_patron()
+    test_patron.save()
+    test_book = create_test_book()
+    test_book.save()
+    test_patron.checkout_books({:book_ids => [test_book.id]}, '2016-12-14')
+    visit('/')
+    fill_in('patron_id', :with => test_patron.id())
+    click_button('My Account')
+    expect(page).to(have_content('My Current Books'))
+    expect(page).to(have_content('Jane Eyre'))
+  end
+end
