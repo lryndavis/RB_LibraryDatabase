@@ -108,6 +108,12 @@ get('/books/:id/update') do
   erb(:update_book_form)
 end
 
+get('/books/:id/checkout') do
+  id = params[:id]
+  @book = Book.find('id', id).first()
+  erb(:checkout_book_form)
+end
+
 get('/search') do
   search_type = params[:search_type]
   search_criterium = params[:search_criteria]
@@ -242,4 +248,13 @@ patch('/authors/:id') do
   end
   @author = Author.find('id', id).first()
   erb(:author)
+end
+
+post('/checkouts') do
+  patron_id = params[:patron_id]
+  book_id = params[:book_id]
+  @patron = Patron.find('id', patron_id).first()
+  @patron.checkout_books({:book_ids => [book_id]}, '2016-12-12')
+  @book_history = @patron.book_history()
+  erb(:checkouts)
 end

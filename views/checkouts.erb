@@ -1,0 +1,13 @@
+<h1><%= @patron.first_name() %> <%= @patron.last_name() %></h1>
+
+<h5>My Current Books</h5>
+
+<h5>Checkout History</h5>
+
+<% if @book_history.any?()  %>
+  <ul>
+    <% @book_history.each() do |entry|  %>
+      <li><%= Book.find('id', entry[0]).first().title() %> is due <%= entry[1] %></li>
+    <% end %>
+  </ul>
+<% end %>

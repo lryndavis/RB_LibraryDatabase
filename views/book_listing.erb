@@ -5,3 +5,5 @@
 <% book.authors.each() do |author| %>
   <h5><%= author.last_name() %>, <%= author.first_name() %></h5>
 <% end %>
+
+<a href="/books/<%= book.id() %>/checkout">Check out this book</a>

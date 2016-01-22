@@ -50,11 +50,21 @@ class Patron
   end
 
   def book_history
-    results = DB.exec("SELECT books.* FROM patrons
+    history_results = DB.exec("SELECT books.* FROM patrons
       JOIN checkouts ON (patrons.id = checkouts.patron_id)
       JOIN books ON (checkouts.book_id = books.id)
       WHERE patrons.id = #{self.id()};")
-    Book.map_results_to_objects(results)
+
+    books = Book.map_results_to_objects(history_results)
+    history = {}
+
+    books.each() do |book|
+      due_date_result = DB.exec("SELECT due_date FROM checkouts \
+        WHERE book_id = #{book.id()} AND patron_id = #{self.id()}").first()
+      due_date = due_date_result.fetch('due_date')
+      history.store(book.id(), due_date)
+    end
+    history
   end
 
   def delete

@@ -181,3 +181,19 @@ describe('edit an author', {:type => :feature}) do
     expect(page).to(have_content('Bronte, Jayne'))
   end
 end
+
+describe('check out a book', {:type => :feature}) do
+  it('allows a patron to check out a book') do
+    test_patron = create_test_patron()
+    test_patron.save()
+    test_book = create_test_book()
+    test_book.save()
+    visit('/books')
+    click_link('Check out this book')
+    fill_in('patron_id', :with => test_patron.id())
+    click_button('Finish Checkout')
+    expect(page).to(have_content('My Current Books'))
+    expect(page).to(have_content('Jane Eyre'))
+    expect(test_book.checked_out?()).to(eq(true))
+  end
+end

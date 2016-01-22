@@ -66,6 +66,11 @@ class Book
     false
   end
 
+  def due_date
+    result = DB.exec("SELECT due_date FROM checkouts WHERE book_id = #{self.id()};")
+    result.first.fetch('due_date')
+  end
+
   def checkin
     DB.exec("UPDATE checkouts SET checked_out = 'f' WHERE book_id = #{self.id()};")
   end

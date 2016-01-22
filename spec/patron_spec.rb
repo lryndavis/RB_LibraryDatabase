@@ -84,7 +84,7 @@ describe(Patron) do
       second_book = create_second_book()
       second_book.save()
       test_patron.checkout_books({:book_ids => [first_book.id(), second_book.id()]}, '2016-12-12')
-      expect(test_patron.book_history()).to(eq([first_book, second_book]))
+      expect(test_patron.book_history().fetch(first_book.id())).to(eq('2016-12-12'))
     end
   end
 end
