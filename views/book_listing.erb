@@ -6,4 +6,8 @@
   <h5><%= author.last_name() %>, <%= author.first_name() %></h5>
 <% end %>
 
-<a href="/books/<%= book.id() %>/checkout">Check out this book</a>
+<% if book.checked_out?() %>
+  <h5>This book is checked out.</h5>
+<% else %>
+  <a href="/books/<%= book.id() %>/checkout">Check out this book</a>
+<% end %>
